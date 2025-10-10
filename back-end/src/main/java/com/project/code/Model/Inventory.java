@@ -1,6 +1,8 @@
-package com.project.code.Model;
+package com.project.code.model;
 
+import javax.annotation.processing.Generated;
 
+@Entity
 public class Inventory {
    // 1. Add 'id' field:
 //    - Type: private long 
@@ -8,25 +10,38 @@ public class Inventory {
 //    - Use @Id to mark it as the primary key.
 //    - Use @GeneratedValue(strategy = GenerationType.IDENTITY) to auto-increment it.
 
+    @Ide
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
 // 2. Add 'product' field:
 //    - Type: private Product
 //    - This field will represent the product associated with the inventory entry.
 //    - Use @ManyToOne to establish a many-to-one relationship with the Product entity.
+
+    @ManyToOne
+    private Product product;
 
 // 3. Add 'store' field:
 //    - Type: private Store
 //    - This field will represent the store where the inventory is located.
 //    - Use @ManyToOne to establish a many-to-one relationship with the Store entity.
 
+    @ManyToOne
+    private Store store;
+
 // 4. Add 'stockLevel' field:
 //    - Type: private Integer
 //    - This field will represent the current stock level of the product at the store.
+    private Integer stockLevel;
 
 // 5. Add relationships:
 //    - **Product Relationship**: Use @ManyToOne to link this inventory entry to a product.
 //    - **Store Relationship**: Use @ManyToOne to link this inventory entry to a store.
 //    - Use @JsonBackReference("inventory-product") to prevent circular references during JSON serialization for the product field.
 //    - Use @JsonBackReference("inventory-store") to prevent circular references during JSON serialization for the store field.
+
+
 
 // 6. Use @JoinColumn for foreign key associations:
 //    - For the 'product' field, use @JoinColumn(name = "product_id") to specify the foreign key column.
