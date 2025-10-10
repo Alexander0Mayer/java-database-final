@@ -10,7 +10,7 @@ public class Inventory {
 //    - Use @Id to mark it as the primary key.
 //    - Use @GeneratedValue(strategy = GenerationType.IDENTITY) to auto-increment it.
 
-    @Ide
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -20,6 +20,8 @@ public class Inventory {
 //    - Use @ManyToOne to establish a many-to-one relationship with the Product entity.
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
+    @JsonBackReference("inventory-product")
     private Product product;
 
 // 3. Add 'store' field:
@@ -28,6 +30,8 @@ public class Inventory {
 //    - Use @ManyToOne to establish a many-to-one relationship with the Store entity.
 
     @ManyToOne
+    @JoinColumn(name = "store_id")
+    @JsonBackReference("inventory-store")
     private Store store;
 
 // 4. Add 'stockLevel' field:
@@ -49,6 +53,11 @@ public class Inventory {
 
 // 7. Create a constructor:
 //    - Add a constructor that takes a Product, Store, and Integer stockLevel to initialize the Inventory object.
+    public Inventory(Product product, Store store, int stockLevel) {
+        this.product = product;
+        this.store = store;
+        this.stockLevel = stockLevel;
+    }
 
 // 8. Add @Entity annotation:
 //    - Use @Entity above the class definition to mark it as a JPA entity that will be mapped to a database table.
@@ -59,6 +68,37 @@ public class Inventory {
 //    - Example: public Product getProduct(), public void setProduct(Product product)
 //    - Example: public Store getStore(), public void setStore(Store store)
 //    - Example: public Integer getStockLevel(), public void setStockLevel(Integer stockLevel)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Integer getStockLevel() {
+        return stockLevel;
+    }
+
+    public void setStockLevel(Integer stockLevel) {
+        this.stockLevel = stockLevel;
+    }
 
 }
 
