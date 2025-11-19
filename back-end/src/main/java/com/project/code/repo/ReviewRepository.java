@@ -15,4 +15,6 @@ public interface ReviewRepository {
 
 // Example: public List<Review> findByStoreIdAndProductId(Long storeId, Long productId);
 
+    public List<Review> findByStoreIdAndProductId(Long storeId, Long productId);
+
 }

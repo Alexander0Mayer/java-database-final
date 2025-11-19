@@ -1,6 +1,8 @@
 package com.project.code.repo;
 
+import com.project.code.model.Product;
 
+@Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 // 1. Add the repository interface:
 //    - Extend JpaRepository<Product, Long> to inherit basic CRUD functionality.

@@ -1,6 +1,6 @@
 package com.project.code.Model;
 
-
+@Entity
 public class Product {
 
 // 1. Add 'id' field:
@@ -8,24 +8,38 @@ public class Product {
 //    - This field will be auto-incremented.
 //    - Use @Id to mark it as the primary key.
 //    - Use @GeneratedValue(strategy = GenerationType.IDENTITY) to auto-increment it.
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
 
 // 2. Add 'name' field:
 //    - Type: private String
 //    - This field cannot be empty, use the @NotNull annotation to enforce this rule.
 
+    @NotNull
+    private String name;
+
 // 3. Add 'category' field:
 //    - Type: private String
 //    - This field cannot be empty, use the @NotNull annotation to enforce this rule.
+
+    @NotNull
+    private String category;
 
 // 4. Add 'price' field:
 //    - Type: private Double
 //    - This field cannot be empty, use the @NotNull annotation to enforce this rule.
 
+    @NotNull
+    private Double price;
+
 // 5. Add 'sku' field:
 //    - Type: private String
 //    - This field cannot be empty, must be unique, use the @NotNull annotation to enforce this rule.
 //    - Use the @Table annotation with uniqueConstraints to ensure the 'sku' column is unique.
-
+    @NotNull
+    @Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames="sku"))
+    private String sku;
 //    Example: @Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = "sku"))
 
 // 6. Add relationships:
@@ -33,11 +47,34 @@ public class Product {
 //    - Use @OneToMany(mappedBy = "product") to reflect the one-to-many relationship with Inventory.
 //    - Use @JsonManagedReference("inventory-product") to manage bidirectional relationships and avoid circular references.
 
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference("inventory-product")
+
 // 7. Add @Entity annotation:
 //    - Use @Entity above the class name to mark it as a JPA entity.
 
 // 8. Add Getters and Setters:
 //    - Add getter and setter methods for all fields (id, name, category, price, sku).
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public String returnSku() {
+        return sku;
+    }
 
 }
 

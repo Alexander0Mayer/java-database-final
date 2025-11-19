@@ -15,12 +15,15 @@ public interface StoreRepository {
 
 // Example: public Store findById(Long id);
 
+    public Store findById(Long id);
+
 //    - **findBySubName**:
 //      - This method will retrieve stores whose name contains a given substring.
 //      - Return type: List<Store>
 //      - Parameter: String pname
 //      - Use @Query annotation to write a custom query.
-
+    @Query("SELECT s FROM Store s WHERE s.name LIKE %:pname%")
+    public List<Store> findBySubName(String pname);
    
 
 }

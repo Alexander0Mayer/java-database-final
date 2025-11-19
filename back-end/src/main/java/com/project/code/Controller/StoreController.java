@@ -1,6 +1,8 @@
 package com.project.code.Controller;
 
-
+@Autowired
+@RestController
+@RequestMapping("/store")
 public class StoreController {
 // 1. Set Up the Controller Class:
 //    - Annotate the class with `@RestController` to designate it as a REST controller for handling HTTP requests.
@@ -18,11 +20,23 @@ public class StoreController {
 //    - Accept `Store` object in the request body.
 //    - Return a success message in a `Map<String, String>` with the key `message` containing store creation confirmation.
 
+    @PostMapping
+    public ResponseEntity<Map<String, String>> addStore(@RequestBody Store store) {
+        Map<String, String> response = new HashMap<>();
+        storeRepository.save(store);
+        response.put("message", "Store created successfully");
+        return ResponseEntity.ok(response);
+    }
 
  // 4. Define the `validateStore` Method:
 //    - Annotate with `@GetMapping("validate/{storeId}")` to check if a store exists by its `storeId`.
 //    - Return a **boolean** indicating if the store exists.
 
+    @GetMapping("validate/{storeId}")
+    public ResponseEntity<Boolean> validateStore(@PathVariable Long storeId) {
+        boolean exists = storeRepository.existsById(storeId);
+        return ResponseEntity.ok(exists);
+    }
 
  // 5. Define the `placeOrder` Method:
 //    - Annotate with `@PostMapping("/placeOrder")` to handle order placement.
@@ -30,6 +44,17 @@ public class StoreController {
 //    - Return a success message with key `message` if the order is successfully placed.
 //    - Return an error message with key `Error` if there is an issue processing the order.
 
-
+    @PostMapping("/placeOrder")
+    public ResponseEntity<Map<String, String>> placeOrder(@RequestBody PlaceOrderRequestDTO placeOrderRequest) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            orderService.saveOrder(placeOrderRequest);
+            response.put("message", "Order placed successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("Error", "Failed to place order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
    
 }
